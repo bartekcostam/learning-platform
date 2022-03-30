@@ -1,34 +1,27 @@
-const express = require('express')
+const express = require("express")
 const app = express()
-const db = require('./database')
-
+const db = require("./database")
 
 app.use(express.json())
 
-app.use(express.urlencoded())
+app.use(express.urlencoded({ extended: true }))
 
-app.set('view engine','ejs')
+app.set("view engine", "ejs")
 
-app.use(express.static('./public'))
+app.use(express.static("./public"))
 
+app.get("/", async (req, res) => {
+    let wyniki
 
-app.get('/',  async(req, res) => {  
-    let wyniki 
- 
-  try{
-      
+    try {
         wyniki = await db.promise().query(`SELECT * FROM user`)
-  }
-  catch(err){
-      console.log(err)
-  }
+    } catch (err) {
+        console.log(err)
+    }
 
-  console.log(wyniki[0])
+    console.log(wyniki[0])
 
-
-    res.render('index')
-
-
+    res.render("index")
 })
 
 app.listen(3000)
