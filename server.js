@@ -3,12 +3,24 @@ const app = express()
 const db = require('./database')
 
 
+app.use(express.json())
+
+app.use(express.urlencoded())
 
 
+app.get('/',  async(req, res) => {  
+    let wyniki 
+ 
+  try{
+      
+        wyniki = await db.promise().query(`SELECT * FROM user`)
+  }
+  catch(err){
+      console.log(err)
+  }
 
-
-app.get('/',  (req, res) => {
-  res.send('Hello World')
+  console.log(wyniki[0])
+    res.send('Hello World')
 
 
 })
