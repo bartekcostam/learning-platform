@@ -7,6 +7,10 @@ app.use(express.json())
 
 app.use(express.urlencoded())
 
+app.set('view engine','ejs')
+
+app.use(express.static('./public'))
+
 
 app.get('/',  async(req, res) => {  
     let wyniki 
@@ -20,6 +24,8 @@ app.get('/',  async(req, res) => {
   }
 
   console.log(wyniki[0])
+
+
     res.send('Hello World')
 
 
