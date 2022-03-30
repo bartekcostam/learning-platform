@@ -26,7 +26,7 @@ app.get('/',  async(req, res) => {
   console.log(wyniki[0])
 
 
-    res.send('Hello World')
+    res.render('index')
 
 
 })
