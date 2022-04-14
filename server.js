@@ -25,6 +25,12 @@ app.get("/", async (req, res) => {
     res.render("index")
 })
 
+app.get("/login", (req, res) => {
+  
+
+  res.render("login")
+})
+
 app.listen(3000, () => {
     console.log("Server started on port 3000")
 })
