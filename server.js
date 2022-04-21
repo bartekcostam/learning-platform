@@ -34,6 +34,7 @@ app.get("/courses", async (req, res) => {
             return new Course(cdata)
         })
     )
+    console.log(courses)
     res.render("courses", {
         name: "Your courses",
         user,
