@@ -15,10 +15,11 @@ app.get("/", async (req, res) => {
     let wyniki
 
     try {
-        wyniki = await db.promise().query(`SELECT * FROM user`)
+        wyniki = await db.promise().query(`SELECT * FROM users`)
     } catch (err) {
         console.log(err)
     }
+
 
     console.log(wyniki[0])
 
