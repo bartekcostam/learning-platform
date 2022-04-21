@@ -1,0 +1,20 @@
+<%- include('modules/header') %>
+<!-- TODO: Insert navbar -->
+<div class="container">
+    <br />
+    <div class="row">
+        <% for(let i = 0; i < courses.length; i++) { %>
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"><%- courses[i].title %></h5>
+                    <p class="card-text">Price: <%- courses[i].price %></p>
+                    <p class="card-text">Author: <%- courses[i].author %></p>
+                    <a href="#" class="btn btn-primary">View</a>
+                </div>
+            </div>
+        </div>
+        <% } %>
+    </div>
+</div>
+<%- include('modules/footer') %>
