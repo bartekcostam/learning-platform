@@ -2,8 +2,8 @@
 <!-- TODO: Insert navbar -->
 <div class="container">
     <br />
-    <div class="row"></div>
-    <% for(let i = 0; i < courses.length; i++) { %>
+    <div class="row">
+        <% for(let i = 0; i < courses.length; i++) { %>
         <div class="col-sm-6">
             <div class="card">
                 <div class="card-body">
@@ -14,7 +14,7 @@
                 </div>
             </div>
         </div>
-    <% } %>
+        <% } %>
     </div>
 </div>
 <%- include('modules/footer') %>
