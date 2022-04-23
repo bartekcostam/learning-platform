@@ -25,6 +25,12 @@ app.get("/login", (req, res) => {
     })
 })
 
+app.get("/register", (req, res) => {
+    res.render("register", {
+        name: "Register Page",
+    })
+})
+
 app.get("/courses", async (req, res) => {
     const udata = (await db.promise().query(`SELECT * FROM users WHERE id = 6`))[0][0]
     const user = new User(udata)
