@@ -46,6 +46,11 @@ app.get("/courses", async (req, res) => {
         courses,
     })
 })
+app.post("/usr_register", (req, res) => {
+    console.log(req.body)
+    res.send(201)
+})
+
 
 app.listen(3000, () => {
     console.log("Server started on port 3000")
