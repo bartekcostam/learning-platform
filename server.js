@@ -32,7 +32,8 @@ app.get("/register", (req, res) => {
 })
 
 app.get("/courses", async (req, res) => {
-    const udata = (await db.promise().query(`SELECT * FROM users WHERE id = 6`))[0][0]
+    // TODO: get user from session
+    const udata = (await db.promise().query(`SELECT * FROM users WHERE id = 1`))[0][0]
     const user = new User(udata)
     const courses = await Promise.all(
         user.courses.map(async (id) => {
@@ -46,25 +47,39 @@ app.get("/courses", async (req, res) => {
         courses,
     })
 })
-app.post("/usr_register", async (req, res) => {
-    const {firstname,lastname,age,email,password} = req.body
-   // const id = (await db.promise().query(`SELECT id FROM users ORDER BY id DESC LIMIT 1`))[0][0].id + 1
-    const nick = "gdfg"
-    const courses = "1,1"
+app.post("/api/register", async (req, res) => {
+    const { firstname, lastname, age, email, password } = req.body
+    const emailRegex =
+        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    if (!emailRegex.test(email)) {
+        return res.status(400).json({
+            error: "Invalid email",
+        })
+    }
+    const emailExists = (await db.promise().query(`SELECT * FROM users WHERE email = ?`, [email]))[0].length > 0
+    if (emailExists) {
+        return res.status(400).json({
+            error: "Email already exists",
+        })
+    }
+    const nick = ""
+    const courses = ""
     admin = 0
-    
-    try{
-        db.promise().query(`INSERT INTO users (firstname, lastname, age, email, password, nick, courses, admin) VALUES(?, ?, ?, ?, ?, ?, ?, ?)`, [firstname, lastname, age, email, password, nick, courses, admin])
-        console.log(firstname,lastname,age,email,password,nick,courses,admin)
-    }
-    catch (err){
-        console.log(err)
-
-    }
-    console.log(req.body)
-    res.sendStatus(201)
+    db.promise()
+        .query(`INSERT INTO users (firstname, lastname, age, email, password, nick, courses, admin) VALUES(?, ?, ?, ?, ?, ?, ?, ?)`, [
+            firstname,
+            lastname,
+            age,
+            email,
+            password,
+            nick,
+            courses,
+            admin,
+        ])
+        .catch(console.error)
+    // TODO: add session to localstorage
+    res.send(201).redirect("/courses")
 })
-
 
 app.listen(3000, () => {
     console.log("Server started on port 3000")
