@@ -48,14 +48,14 @@ app.get("/courses", async (req, res) => {
 })
 app.post("/usr_register", async (req, res) => {
     const {firstname,lastname,age,email,password} = req.body
-    const id = (await db.promise().query(`SELECT id FROM users ORDER BY id DESC LIMIT 1`))[0][0].id + 1
+   // const id = (await db.promise().query(`SELECT id FROM users ORDER BY id DESC LIMIT 1`))[0][0].id + 1
     const nick = "gdfg"
-    const courses = "Cos"
-    admin = 1
+    const courses = "1,1"
+    admin = 0
     
     try{
-        db.promise().query(`INSERT INTO users VALUES('${id}','${firstname}','${lastname}','${nick}','${age}','${email}','${courses}','${password}','${admin}')`)
-        console.log(firstname,lastname,age,email,password,id,nick,courses,admin)
+        db.promise().query(`INSERT INTO users (firstname, lastname, age, email, password, nick, courses, admin) VALUES(?, ?, ?, ?, ?, ?, ?, ?)`, [firstname, lastname, age, email, password, nick, courses, admin])
+        console.log(firstname,lastname,age,email,password,nick,courses,admin)
     }
     catch (err){
         console.log(err)
