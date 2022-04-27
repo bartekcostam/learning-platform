@@ -48,10 +48,10 @@ app.get("/courses", async (req, res) => {
 })
 app.post("/usr_register", async (req, res) => {
     const {firstname,lastname,age,email,password} = req.body
-    const id = null
+    const id = (await db.promise().query(`SELECT id FROM users ORDER BY id DESC LIMIT 1`))[0][0].id + 1
     const nick = "gdfg"
     const courses = "Cos"
-    admin = Boolean(true)
+    admin = 1
     
     try{
         db.promise().query(`INSERT INTO users VALUES('${id}','${firstname}','${lastname}','${nick}','${age}','${email}','${courses}','${password}','${admin}')`)
