@@ -46,9 +46,23 @@ app.get("/courses", async (req, res) => {
         courses,
     })
 })
-app.post("/usr_register", (req, res) => {
+app.post("/usr_register", async (req, res) => {
+    const {firstname,lastname,age,email,password} = req.body
+    const id = null
+    const nick = "gdfg"
+    const courses = "Cos"
+    admin = Boolean(true)
+    
+    try{
+        db.promise().query(`INSERT INTO users VALUES('${id}','${firstname}','${lastname}','${nick}','${age}','${email}','${courses}','${password}','${admin}')`)
+        console.log(firstname,lastname,age,email,password,id,nick,courses,admin)
+    }
+    catch (err){
+        console.log(err)
+
+    }
     console.log(req.body)
-    res.send(201)
+    res.sendStatus(201)
 })
 
 
