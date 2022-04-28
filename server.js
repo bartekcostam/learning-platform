@@ -25,6 +25,16 @@ app.get("/login", (req, res) => {
     })
 })
 
+app.post("/login_usr", (req, res) => {
+
+    if(req.body.username === "admin" && req.body.password === "password"){
+        res.render("admin_panel")
+    }
+    else{
+        res.sendStatus(418)
+    }
+})
+
 app.get("/register", (req, res) => {
     res.render("register", {
         name: "Register Page",
