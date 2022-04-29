@@ -4,6 +4,8 @@ const app = express()
 const db = require("./database")
 const Course = require("./models/course")
 const User = require("./models/user")
+const cookieParser = require("cookie-parser");
+const sessions = require('express-session');
 
 app.use(express.json())
 
@@ -12,6 +14,18 @@ app.use(express.urlencoded({ extended: true }))
 app.set("view engine", "ejs")
 
 app.use(express.static("./public"))
+
+app.use(cookieParser())
+
+const oneDay = 1000 * 60 * 60 * 24;
+
+//session middleware
+app.use(sessions({
+    secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
+    saveUninitialized:true,
+    cookie: { maxAge: oneDay },
+    resave: false
+}));
 
 app.get("/", async (req, res) => {
     res.render("index", {
