@@ -39,14 +39,24 @@ app.get("/login", (req, res) => {
     })
 })
 
-app.post("/login_usr", (req, res) => {
-
+app.post("/login_usr", async(req, res) => {
+    console.log(req.body.username)
+    let paramUsr = req.body.username
+    let name = await db.promise().query(`SELECT * FROM users WHERE firstname=" ${paramUsr}"`)
+    //DO OGARNIECIA RENDEROWANIE NAZWY I DANYCH USR 
+    
+    //WHERE firstname =`, req.body.username
     if(req.body.username === "admin" && req.body.password === "password"){
         res.render("admin_panel")
     }
-    else{
+    else if(req.body.username === "user" && req.body.password === "password"){
+        res.render("user_panel", {name:name})
+    } 
+    else { 
         res.sendStatus(418)
     }
+
+    
 })
 
 app.get("/register", (req, res) => {
