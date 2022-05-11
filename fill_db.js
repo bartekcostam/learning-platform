@@ -12,18 +12,20 @@ const username = faker.animal.type()
 const courses = [1, 2, 3, 4]
 const randomCourses = Math.floor(Math.random() * courses.length)
 
-;async () => {
-    db.promise().query(`INSERT INTO users (firstname, lastname,username, age, email, courses, password, admin) VALUES(?,?,?,?,?,?,?,?)`, [
-        randomName,
-        randomSurname,
-        username,
-        age,
-        randomEmail,
-        courses[randomCourses],
-        password,
-        0,
-    ])
+;(async () => {
+    await db
+        .promise()
+        .query(`INSERT INTO users (firstname, lastname,username, age, email, courses, password, admin) VALUES(?,?,?,?,?,?,?,?)`, [
+            randomName,
+            randomSurname,
+            username,
+            age,
+            randomEmail,
+            courses[randomCourses],
+            password,
+            0,
+        ])
 
     const newUser = (await db.promise().query(`SELECT * FROM users WHERE email = ?`, [email]))[0]
     console.log(newUser)
-}
+})()
