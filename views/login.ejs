@@ -1,34 +1,18 @@
-<%- include('modules/header') %>
-<%- include('modules/navbar') %>
+<%- include('modules/header') %> <%- include('modules/navbar') %>
 <div class="container">
     <div class="row">
         <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
             <div class="card card-signin my-5">
                 <div class="card-body">
                     <h5 class="card-title text-center">Sign In</h5>
-                    <form class="form-signin"  method="post" action="http://localhost:3000/login_usr" enctype="application/json">
+                    <form class="form-signin" method="post" action="http://localhost:3000/api/login" enctype="application/json">
                         <div class="form-label-group">
-                            <input
-                                type="text"
-                                id="inputUserName"
-                                name="username"
-                                class="form-control"
-                                placeholder="User Name"
-                                required
-                                autofocus
-                            />
+                            <input type="text" id="inputUserName" name="username" class="form-control" placeholder="User Name" required autofocus />
                             <label for="inputUserName">User Name</label>
                         </div>
 
                         <div class="form-label-group">
-                            <input
-                                type="password"
-                                id="inputPassword"
-                                name="password"
-                                class="form-control"
-                                placeholder="Password"
-                                required
-                            />
+                            <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required />
                             <label for="inputPassword">Password</label>
                         </div>
 

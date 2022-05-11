@@ -42,7 +42,7 @@ app.get("/login", (req, res) => {
     })
 })
 
-app.post("/login_usr", async (req, res) => {
+app.post("/api/login", async (req, res) => {
     if (req.body.username === "admin" && req.body.password === "password") {
         res.render("admin_panel")
     } else if (req.body.username === "user" && req.body.password === "password") {
