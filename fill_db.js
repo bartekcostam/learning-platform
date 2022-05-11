@@ -21,7 +21,7 @@ var id
 
   db.query(
     'SELECT * FROM `users` ',
-    ['Page', 45],
+    
     function(err, results) {
       console.log(results.length);
       id = results.length++
