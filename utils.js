@@ -9,8 +9,8 @@ module.exports = class Util {
         return new User((await this.db.promise().query(`SELECT * FROM users WHERE id = ?`, [id]))[0][0])
     }
 
-    async getUserByUsername(username) {
-        return new User((await this.db.promise().query(`SELECT * FROM users WHERE username = ?`, [username]))[0][0])
+    async getUserByEmail(email) {
+        return new User((await this.db.promise().query(`SELECT * FROM users WHERE email = ?`, [email]))[0][0])
     }
 
     async getCourse(id) {

@@ -42,22 +42,36 @@ app.get("/login", (req, res) => {
     })
 })
 
+app.get("/register", (req, res) => {
+    res.render("register", {
+        name: "Register Page",
+    })
+})
+
 app.post("/api/login", async (req, res) => {
-    if (req.body.username === "admin" && req.body.password === "password") {
-        res.render("admin_panel")
-    } else if (req.body.username === "user" && req.body.password === "password") {
-        const user = await utils.getUserByUsername(req.body.username)
-        const courses = await utils.getUserCourses(user.id)
-        res.render("user_panel", { name: "User Panel", user, courses })
+    const email = req.body.email
+    const password = req.body.password
+    const user = await utils.getUserByEmail(email)
+    if (user.password == password) {
+        req.session.user = user
+        res.status(200).redirect("/panel")
     } else {
         res.sendStatus(418)
     }
 })
 
-app.get("/register", (req, res) => {
-    res.render("register", {
-        name: "Register Page",
-    })
+app.get("/panel", async (req, res) => {
+    if (req.session.user) {
+        const user = req.session.user
+        const courses = await utils.getUserCourses(user.id)
+        res.render("user_panel", { name: "User Panel", user, courses })
+    } else {
+        res.redirect("/login")
+    }
+})
+
+app.get("/admin", async (req, res) => {
+    res.render("admin_panel", { name: "Admin Panel" })
 })
 
 app.get("/courses", async (req, res) => {
@@ -106,6 +120,7 @@ app.post("/api/register", async (req, res) => {
         ])
         .catch(console.error)
     // TODO: add session to localstorage
+    req.session.user = await utils.getUserByEmail(email)
     res.send(201).redirect("/courses")
 })
 
