@@ -3,8 +3,6 @@ const express = require("express")
 const app = express()
 const db = require("./database")
 const utils = new (require("./utils"))(db)
-const Course = require("./models/course")
-const User = require("./models/user")
 const cookieParser = require("cookie-parser")
 const sessions = require("express-session")
 
