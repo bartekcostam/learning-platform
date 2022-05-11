@@ -33,18 +33,21 @@ app.use(
 app.get("/", async (req, res) => {
     res.render("index", {
         name: "Homepage",
+        session: req.session,
     })
 })
 
 app.get("/login", (req, res) => {
     res.render("login", {
         name: "Login Page",
+        session: req.session,
     })
 })
 
 app.get("/register", (req, res) => {
     res.render("register", {
         name: "Register Page",
+        session: req.session,
     })
 })
 
@@ -60,18 +63,23 @@ app.post("/api/login", async (req, res) => {
     }
 })
 
+app.get("/api/logout", (req, res) => {
+    req.session.destroy()
+    res.redirect("/")
+})
+
 app.get("/panel", async (req, res) => {
     if (req.session.user) {
         const user = req.session.user
         const courses = await utils.getUserCourses(user.id)
-        res.render("user_panel", { name: "User Panel", user, courses })
+        res.render("user_panel", { name: "User Panel", user, courses, session: req.session })
     } else {
         res.redirect("/login")
     }
 })
 
 app.get("/admin", async (req, res) => {
-    res.render("admin_panel", { name: "Admin Panel" })
+    res.render("admin_panel", { name: "Admin Panel", session: req.session })
 })
 
 app.get("/courses", async (req, res) => {
@@ -87,6 +95,7 @@ app.get("/courses", async (req, res) => {
         name: "Your courses",
         user,
         courses,
+        session: req.session,
     })
 })
 app.post("/api/register", async (req, res) => {
