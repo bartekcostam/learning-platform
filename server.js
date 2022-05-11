@@ -10,6 +10,7 @@ const CookieStore = require("connect-mysql")(session)
 const CookieStoreOptions = {
     config: Util.dbConfig,
 }
+const path = require("path")
 
 app.use(express.json())
 
@@ -17,7 +18,7 @@ app.use(express.urlencoded({ extended: true }))
 
 app.set("view engine", "ejs")
 
-app.use(express.static("./public"))
+app.use(express.static(path.join(__dirname, "public")))
 
 app.use(cookieParser())
 
@@ -120,6 +121,39 @@ app.get("/courses/:id", async (req, res) => {
     })
 })
 
+app.get("/courses/:id/delete", async (req, res) => {
+    const course = await utils.getCourse(req.params.id)
+    const user = req.session.user
+    if (user?.admin) {
+        await utils.deleteCourse(course.id)
+    }
+    res.redirect("/courses")
+})
+
+app.post("/api/course/:id", async (req, res) => {
+    const course = await utils.getCourse(req.params.id)
+    if (course.id) {
+        return res.status(200).send(JSON.stringify(course))
+    } else {
+        return res.status(418).send("Course not found")
+    }
+})
+
+app.post("/api/course/:id/edit", async (req, res) => {
+    const course = await utils.getCourse(req.params.id)
+    const user = req.session.user
+    if (user?.admin) {
+        if (course.id) {
+            await utils.updateCourse(course.id, req.body)
+            return res.status(200).redirect(req.get("referer"))
+        } else {
+            return res.status(418).send("Course not found")
+        }
+    } else {
+        res.redirect("/courses")
+    }
+})
+
 app.post("/api/register", async (req, res) => {
     const { firstname, lastname, age, email, password } = req.body
     const emailRegex =
@@ -156,5 +190,5 @@ app.post("/api/register", async (req, res) => {
 })
 
 app.listen(3000, () => {
-    console.log("Server started on port 3000")
+    console.log("Server started on http://localhost:3000")
 })
