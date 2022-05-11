@@ -28,8 +28,26 @@ module.exports = class Util {
         const user = await this.getUser(id)
         const courses = []
         for (const id of user.courses) {
-            courses.push(await this.getCourse(id))
+            const c = await this.getCourse(id)
+            if (!c.id) continue
+            courses.push(c)
         }
         return courses
+    }
+
+    async deleteCourse(id) {
+        await this.db.promise().query(`DELETE FROM courses WHERE id = ?`, [id])
+    }
+
+    async updateCourse(id, data) {
+        const current = await this.getCourse(id)
+        await this.db
+            .promise()
+            .query(`UPDATE courses SET title = ?, description = ?, price = ? WHERE id = ?`, [
+                data.title || current.title,
+                data.description || current.description,
+                data.price || current.price,
+                id,
+            ])
     }
 }
