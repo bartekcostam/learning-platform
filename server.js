@@ -91,14 +91,18 @@ app.get("/admin", async (req, res) => {
 })
 
 app.get("/courses", async (req, res) => {
-    const user = req.session.user
-    const courses = await utils.getUserCourses(user.id)
-    res.render("courses", {
-        name: "Your courses",
-        user,
-        courses,
-        session: req.session,
-    })
+    if (req.session.user) {
+        const user = req.session.user
+        const courses = await utils.getUserCourses(user.id)
+        res.render("courses", {
+            name: "Your courses",
+            user,
+            courses,
+            session: req.session,
+        })
+    } else {
+        res.redirect("/login")
+    }
 })
 app.post("/api/register", async (req, res) => {
     const { firstname, lastname, age, email, password } = req.body
