@@ -20,6 +20,7 @@
     "homepage": "https://github.com/bartekcostam/learning-platform#readme",
     "dependencies": {
         "chart.js": "^3.7.1",
+        "connect-mysql": "^4.0.0",
         "cookie-parser": "^1.4.6",
         "dotenv": "^16.0.0",
         "ejs": "^3.1.6",

@@ -2,9 +2,14 @@ require("dotenv").config()
 const express = require("express")
 const app = express()
 const db = require("./database")
-const utils = new (require("./utils"))(db)
+const Util = require("./util")
+const utils = new Util(db)
 const cookieParser = require("cookie-parser")
-const sessions = require("express-session")
+const session = require("express-session")
+const CookieStore = require("connect-mysql")(session)
+const CookieStoreOptions = {
+    config: Util.dbConfig,
+}
 
 app.use(express.json())
 
@@ -20,11 +25,12 @@ const oneDay = 1000 * 60 * 60 * 24
 
 //session middleware
 app.use(
-    sessions({
+    session({
         secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
         saveUninitialized: true,
-        cookie: { maxAge: oneDay },
+        cookie: { maxAge: oneDay, expires: new Date(new Date().getTime() + oneDay) },
         resave: false,
+        store: new CookieStore(CookieStoreOptions),
     })
 )
 
