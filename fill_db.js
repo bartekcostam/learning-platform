@@ -5,7 +5,7 @@ const db = require("./database")
 const randomName = faker.name.firstName()
 const randomSurname = "Kowalski"
 const age = Math.floor(Math.random() * 100)
-const randomEmail = faker.internet.email() // Kassandra.Haley@erich.biz
+const email = faker.internet.email() // Kassandra.Haley@erich.biz
 const password = faker.internet.password()
 const username = faker.animal.type()
 
@@ -20,7 +20,7 @@ const randomCourses = Math.floor(Math.random() * courses.length)
             randomSurname,
             username,
             age,
-            randomEmail,
+            email,
             courses[randomCourses],
             password,
             0,
