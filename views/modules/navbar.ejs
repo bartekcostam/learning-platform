@@ -16,20 +16,25 @@
             <ul class="navbar-nav">
                 <% if(!locals.session.user) { %>
                 <li class="nav-item">
-                    <a class="nav-link" href="/register">Sign Up</a>
+                    <a class="nav-link" href="/register">Sign Up<span class="material-symbols-outlined"> login </span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="bnav-link" href="/login">Sign In</a>
+                    <a class="nav-link" href="/login">Sign In<span class="material-symbols-outlined"> login </span></a>
                 </li>
                 <% } else { %>
                 <li class="nav-item">
-                    <a class="nav-link" href="/panel">User Panel</a>
+                    <a class="nav-link" href="/panel">User Panel<span class="material-symbols-outlined"> account_circle </span></a>
+                </li>
+                <% if(locals.session.user.admin) { %>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin">Admin Panel<span class="material-symbols-outlined"> admin_panel_settings </span></a>
+                </li>
+                <% } %>
+                <li class="nav-item">
+                    <a class="nav-link" href="/courses">Courses<span class="material-symbols-outlined"> golf_course </span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/courses">Courses</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/api/logout">Logout</a>
+                    <a class="nav-link" href="/api/logout">Logout<span class="material-symbols-outlined"> logout </span></a>
                 </li>
                 <% } %>
             </ul>
