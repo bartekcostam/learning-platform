@@ -1,13 +1,39 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link href="css/styles.css" rel="stylesheet" />
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
 <body>
-    <h1>Hello <%= name.firstname%></h1>
+    <div class="container">
+        <!-- Content here -->
+    <br><br><br><br>
+    <h1>Hello <%= data.firstname %></h1>
+    <ul class="list-group text">
+        <li class="list-group-item active">Lastname: <%= data.lastname%></li>
+        <li class="list-group-item">Nick: <%= data.nick%></li>
+        <li class="list-group-item">Age: <%= data.age%></li>
+        <li class="list-group-item">Email: <%= data.email%></li>
+        <li class="list-group-item">Courses: <%= data.courses%></li>
+        <li class="list-group-item">Password: <%= data.password%></li>
+        <li class="list-group-item">Is admin ?:<%= data.admin%></li>
+      </ul>
+
+    </div>
     
+<style>
+    body{
+        background-color: rgb(194, 212, 239);
+    }
+.text{
+    font-size: 30px;
+}
+
+</style>
 </body>
+
 </html>
