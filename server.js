@@ -38,17 +38,25 @@ app.get("/", async (req, res) => {
 })
 
 app.get("/login", (req, res) => {
-    res.render("login", {
-        name: "Login Page",
-        session: req.session,
-    })
+    if (req.session.user) {
+        res.redirect("/panel")
+    } else {
+        res.render("login", {
+            name: "Login Page",
+            session: req.session,
+        })
+    }
 })
 
 app.get("/register", (req, res) => {
-    res.render("register", {
-        name: "Register Page",
-        session: req.session,
-    })
+    if (req.session.user) {
+        res.redirect("/panel")
+    } else {
+        res.render("register", {
+            name: "Register Page",
+            session: req.session,
+        })
+    }
 })
 
 app.post("/api/login", async (req, res) => {
