@@ -3,6 +3,7 @@ module.exports = class Course {
     title
     price
     author
+    description
     constructor(data) {
         Object.assign(this, data)
     }

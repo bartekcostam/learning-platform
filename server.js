@@ -102,6 +102,18 @@ app.get("/courses", async (req, res) => {
         res.redirect("/login")
     }
 })
+
+app.get("/courses/:id", async (req, res) => {
+    const course = await utils.getCourse(req.params.id)
+    const user = req.session.user
+    res.render("course_details", {
+        course,
+        name: `${course.title} - Course Details`,
+        user,
+        session: req.session,
+    })
+})
+
 app.post("/api/register", async (req, res) => {
     const { firstname, lastname, age, email, password } = req.body
     const emailRegex =

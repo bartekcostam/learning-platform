@@ -7,13 +7,15 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title"><%- courses[i].title %></h5>
-                    <p class="card-text">Price: <%- courses[i].price %></p>
+                    <p class="card-text">Price: <%- courses[i].price %>zł</p>
                     <p class="card-text">Author: <%- courses[i].author %></p>
-                    <a href="#" class="btn btn-primary">View</a>
+                    <a href="/courses/<%=courses[i].id%>" class="btn btn-primary">View</a>
                 </div>
             </div>
+            <br />
         </div>
         <% } %>
     </div>
+    <br />
 </div>
 <%- include('modules/footer') %>

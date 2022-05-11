@@ -1,0 +1,14 @@
+<%- include('modules/header') %> <%- include('modules/navbar') %>
+<div class="container">
+    <br />
+    <h1><%= course.title %></h2>
+    <h4>Price: <%= course.price %>zł</h4>
+    <h4>Author: <%= course.author %></h4>
+    <p><%= course.description %></p>
+    <% if(locals.session.user) { %>
+        <a href="/courses" class="btn btn-primary">Go back to Your Courses</a>
+    <% } %>
+    <br />
+    <br />
+</div>
+<%- include('modules/footer') %>
