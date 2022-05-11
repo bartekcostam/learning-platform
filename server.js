@@ -91,14 +91,8 @@ app.get("/admin", async (req, res) => {
 })
 
 app.get("/courses", async (req, res) => {
-    // TODO: get user from session
-    const user = utils.getUser(id)
-    const courses = await Promise.all(
-        user.courses.map(async (c) => {
-            const cdata = (await db.promise().query(`SELECT * FROM courses WHERE id = ${c.id}`))[0][0]
-            return new Course(cdata)
-        })
-    )
+    const user = req.session.user
+    const courses = await utils.getUserCourses(user.id)
     res.render("courses", {
         name: "Your courses",
         user,
