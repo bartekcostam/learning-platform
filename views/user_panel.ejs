@@ -8,7 +8,6 @@
         <li class="list-group-item">Username: <%= user.username%></li>
         <li class="list-group-item">Age: <%= user.age%></li>
         <li class="list-group-item">Email: <%= user.email%></li>
-        <li class="list-group-item">Courses: <%= courses.map((c) => `"${c.title}"`).join(', ')%></li>
         <li class="list-group-item">Password: <%= user.password%></li>
         <li class="list-group-item">Is admin: <%= user.admin == true ? "yes" : "no"%></li>
     </ul>
