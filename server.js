@@ -2,10 +2,11 @@ require("dotenv").config()
 const express = require("express")
 const app = express()
 const db = require("./database")
+const utils = new (require("./utils"))(db)
 const Course = require("./models/course")
 const User = require("./models/user")
-const cookieParser = require("cookie-parser");
-const sessions = require('express-session');
+const cookieParser = require("cookie-parser")
+const sessions = require("express-session")
 
 app.use(express.json())
 
@@ -17,15 +18,17 @@ app.use(express.static("./public"))
 
 app.use(cookieParser())
 
-const oneDay = 1000 * 60 * 60 * 24;
+const oneDay = 1000 * 60 * 60 * 24
 
 //session middleware
-app.use(sessions({
-    secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
-    saveUninitialized:true,
-    cookie: { maxAge: oneDay },
-    resave: false
-}));
+app.use(
+    sessions({
+        secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
+        saveUninitialized: true,
+        cookie: { maxAge: oneDay },
+        resave: false,
+    })
+)
 
 app.get("/", async (req, res) => {
     res.render("index", {
@@ -39,25 +42,16 @@ app.get("/login", (req, res) => {
     })
 })
 
-app.post("/login_usr", async(req, res) => {
-    console.log(req.body.username)
-    
-    let data = await db.promise().query(`SELECT * FROM users WHERE firstname="${req.body.username}"`)
-    //DO OGARNIECIA RENDEROWANIE NAZWY I DANYCH USR 
-    
-    console.log(data[0][0])
-    
-    if(req.body.username === "admin" && req.body.password === "password"){
+app.post("/login_usr", async (req, res) => {
+    if (req.body.username === "admin" && req.body.password === "password") {
         res.render("admin_panel")
-    }
-    else if(req.body.username === "user" && req.body.password === "password"){
-        res.render("user_panel", {data:data[0][0]})
-    } 
-    else { 
+    } else if (req.body.username === "user" && req.body.password === "password") {
+        const user = await utils.getUserByUsername(req.body.username)
+        const courses = await utils.getUserCourses(user.id)
+        res.render("user_panel", { name: "User Panel", user, courses })
+    } else {
         res.sendStatus(418)
     }
-
-    
 })
 
 app.get("/register", (req, res) => {
@@ -68,11 +62,10 @@ app.get("/register", (req, res) => {
 
 app.get("/courses", async (req, res) => {
     // TODO: get user from session
-    const udata = (await db.promise().query(`SELECT * FROM users WHERE id = 1`))[0][0]
-    const user = new User(udata)
+    const user = utils.getUser(id)
     const courses = await Promise.all(
-        user.courses.map(async (id) => {
-            const cdata = (await db.promise().query(`SELECT * FROM courses WHERE id = ${id}`))[0][0]
+        user.courses.map(async (c) => {
+            const cdata = (await db.promise().query(`SELECT * FROM courses WHERE id = ${c.id}`))[0][0]
             return new Course(cdata)
         })
     )
@@ -97,7 +90,7 @@ app.post("/api/register", async (req, res) => {
             error: "Email already exists",
         })
     }
-    const nick = ""
+    const username = ""
     const courses = ""
     admin = 0
     db.promise()
@@ -107,7 +100,7 @@ app.post("/api/register", async (req, res) => {
             age,
             email,
             password,
-            nick,
+            username,
             courses,
             admin,
         ])

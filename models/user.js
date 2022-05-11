@@ -2,7 +2,7 @@ module.exports = class User {
     id
     firstname
     lastname
-    nick
+    username
     age
     email
     courses
