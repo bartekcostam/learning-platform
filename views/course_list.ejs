@@ -1,0 +1,18 @@
+<%- include('modules/header') %> <%- include('modules/navbar') %> <br />
+<div class="container">
+    <div class="list-group">
+        <% for(let i = 0; i < locals.courses.length; i++) { %>
+        <% const owner = (locals.session.user?.courses.includes(courses[i].id)) %>
+        <a class="list-group-item list-group-item-action <%- owner ? "list-group-item-success" : ""%>" aria-current="true">
+            <div class="d-flex w-100 justify-content-between">
+                <h4 class="mb-1"><%- courses[i].title %></h4>
+                <button onclick="window.location.href='/courses/<%- courses[i].id %>'" type="button" class="btn btn-primary"><%- (owner) ? "view" : courses[i].price + "zł" %><span class="material-symbols-outlined"> <%- (owner) ? "wysiwyg" : "shopping_cart" %></span></button>
+            </div>
+            <p><%- (courses[i].description.length > 150) ? courses[i].description.substr(0, 149) + '&hellip;' : courses[i].description %></p>
+            <small>Author: <strong><%- courses[i].author %></strong></small>
+        </a>
+        <% } %>
+    </div>
+    <br />
+</div>
+<%- include('modules/footer') %>

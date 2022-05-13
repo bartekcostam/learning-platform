@@ -24,6 +24,14 @@ module.exports = class Util {
         return new Course((await this.db.promise().query(`SELECT * FROM courses WHERE id = ?`, [id]))[0][0])
     }
 
+    async getAllCourses() {
+        const courses = []
+        for (const course of (await this.db.promise().query(`SELECT * FROM courses`))[0]) {
+            courses.push(new Course(course))
+        }
+        return courses
+    }
+
     async getUserCourses(id) {
         const user = await this.getUser(id)
         const courses = []

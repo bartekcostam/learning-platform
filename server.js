@@ -91,6 +91,11 @@ app.get("/panel", async (req, res) => {
     }
 })
 
+app.get("/browse", async (req, res) => {
+    const courses = await utils.getAllCourses()
+    res.render("course_list", { name: "Browse Courses", session: req.session, courses })
+})
+
 app.get("/admin", async (req, res) => {
     res.render("admin_panel", { name: "Admin Panel", session: req.session })
 })
@@ -101,7 +106,6 @@ app.get("/courses", async (req, res) => {
         const courses = await utils.getUserCourses(user.id)
         res.render("courses", {
             name: "Your courses",
-            user,
             courses,
             session: req.session,
         })
@@ -184,7 +188,6 @@ app.post("/api/register", async (req, res) => {
             admin,
         ])
         .catch(console.error)
-    // TODO: add session to localstorage
     req.session.user = await utils.getUserByEmail(email)
     res.send(201).redirect("/courses")
 })

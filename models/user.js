@@ -10,6 +10,6 @@ module.exports = class User {
     admin
     constructor(data) {
         Object.assign(this, data)
-        this.courses = this.courses.split(",")
+        this.courses = this.courses.split(",").map((c) => Number(c))
     }
 }
