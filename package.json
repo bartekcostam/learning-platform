@@ -7,6 +7,9 @@
         "start": "node .",
         "dev": "nodemon ."
     },
+    "engines": {
+		"node": ">=16.9.0"
+	},
     "repository": {
         "type": "git",
         "url": "git+https://github.com/bartekcostam/learning-platform.git"
