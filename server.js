@@ -1,30 +1,29 @@
 require("dotenv").config()
 const express = require("express")
-const app = express()
-const db = require("./database")
-const Util = require("./util")
-const utils = new Util(db)
 const cookieParser = require("cookie-parser")
 const session = require("express-session")
 const CookieStore = require("connect-mysql")(session)
+const path = require("path")
+const db = require("./database")
+const Util = require("./util")
+
+const app = express()
+const utils = new Util(db)
 const CookieStoreOptions = {
     config: Util.dbConfig,
 }
-const path = require("path")
 
 app.use(express.json())
-
 app.use(express.urlencoded({ extended: true }))
-
 app.set("view engine", "ejs")
-
 app.use(express.static(path.join(__dirname, "public")))
-
 app.use(cookieParser())
 
 const oneDay = 1000 * 60 * 60 * 24
 
-//session middleware
+/**
+ * Configures session
+ */
 app.use(
     session({
         secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
@@ -35,6 +34,9 @@ app.use(
     })
 )
 
+/**
+ * Route for index page
+ */
 app.get("/", async (req, res) => {
     res.render("index", {
         name: "Homepage",
@@ -42,6 +44,9 @@ app.get("/", async (req, res) => {
     })
 })
 
+/**
+ * Route for login page
+ */
 app.get("/login", (req, res) => {
     if (req.session.user) {
         res.redirect("/panel")
@@ -53,6 +58,9 @@ app.get("/login", (req, res) => {
     }
 })
 
+/**
+ * Route for register page
+ */
 app.get("/register", (req, res) => {
     if (req.session.user) {
         res.redirect("/panel")
@@ -64,6 +72,9 @@ app.get("/register", (req, res) => {
     }
 })
 
+/**
+ * Recieves data from login form to redirect to panel page
+ */
 app.post("/api/login", async (req, res) => {
     const email = req.body.email
     const password = req.body.password
@@ -76,88 +87,9 @@ app.post("/api/login", async (req, res) => {
     }
 })
 
-app.get("/api/logout", (req, res) => {
-    req.session.destroy()
-    res.redirect("/")
-})
-
-app.get("/panel", async (req, res) => {
-    if (req.session.user) {
-        const user = req.session.user
-        const courses = await utils.getUserCourses(user.id)
-        res.render("user_panel", { name: "User Panel", user, courses, session: req.session })
-    } else {
-        res.redirect("/login")
-    }
-})
-
-app.get("/browse", async (req, res) => {
-    const courses = await utils.getAllCourses()
-    res.render("course_list", { name: "Browse Courses", session: req.session, courses })
-})
-
-app.get("/admin", async (req, res) => {
-    res.render("admin_panel", { name: "Admin Panel", session: req.session })
-})
-
-app.get("/courses", async (req, res) => {
-    if (req.session.user) {
-        const user = req.session.user
-        const courses = await utils.getUserCourses(user.id)
-        res.render("courses", {
-            name: "Your courses",
-            courses,
-            session: req.session,
-        })
-    } else {
-        res.redirect("/login")
-    }
-})
-
-app.get("/courses/:id", async (req, res) => {
-    const course = await utils.getCourse(req.params.id)
-    const user = req.session.user
-    res.render("course_details", {
-        course,
-        name: `${course.title} - Course Details`,
-        user,
-        session: req.session,
-    })
-})
-
-app.get("/courses/:id/delete", async (req, res) => {
-    const course = await utils.getCourse(req.params.id)
-    const user = req.session.user
-    if (user?.admin) {
-        await utils.deleteCourse(course.id)
-    }
-    res.redirect("/courses")
-})
-
-app.post("/api/course/:id", async (req, res) => {
-    const course = await utils.getCourse(req.params.id)
-    if (course.id) {
-        return res.status(200).send(JSON.stringify(course))
-    } else {
-        return res.status(418).send("Course not found")
-    }
-})
-
-app.post("/api/course/:id/edit", async (req, res) => {
-    const course = await utils.getCourse(req.params.id)
-    const user = req.session.user
-    if (user?.admin) {
-        if (course.id) {
-            await utils.updateCourse(course.id, req.body)
-            return res.status(200).redirect(req.get("referer"))
-        } else {
-            return res.status(418).send("Course not found")
-        }
-    } else {
-        res.redirect("/courses")
-    }
-})
-
+/**
+ * Recieves data from register form to create a new user and redirect to panel page
+ */
 app.post("/api/register", async (req, res) => {
     const { firstname, lastname, age, email, password } = req.body
     const emailRegex =
@@ -189,7 +121,116 @@ app.post("/api/register", async (req, res) => {
         ])
         .catch(console.error)
     req.session.user = await utils.getUserByEmail(email)
-    res.send(201).redirect("/courses")
+    res.send(201).redirect("/panel")
+})
+
+/**
+ * Clear user from session and redirect back to index
+ */
+app.get("/api/logout", (req, res) => {
+    req.session.destroy()
+    res.redirect("/")
+})
+
+/**
+ * Route for user panel page
+ */
+app.get("/panel", async (req, res) => {
+    if (req.session.user) {
+        const user = req.session.user
+        const courses = await utils.getUserCourses(user.id)
+        res.render("user_panel", { name: "User Panel", user, courses, session: req.session })
+    } else {
+        res.redirect("/login")
+    }
+})
+
+/**
+ * Route for global course list page
+ */
+app.get("/browse", async (req, res) => {
+    const courses = await utils.getAllCourses()
+    res.render("course_list", { name: "Browse Courses", session: req.session, courses })
+})
+
+/**
+ * Route for admin panel page
+ */
+app.get("/admin", async (req, res) => {
+    res.render("admin_panel", { name: "Admin Panel", session: req.session })
+})
+
+/**
+ * Route for user courses page
+ */
+app.get("/courses", async (req, res) => {
+    if (req.session.user) {
+        const user = req.session.user
+        const courses = await utils.getUserCourses(user.id)
+        res.render("courses", {
+            name: "Your courses",
+            courses,
+            session: req.session,
+        })
+    } else {
+        res.redirect("/login")
+    }
+})
+
+/**
+ * Route for course info page
+ */
+app.get("/courses/:id", async (req, res) => {
+    const course = await utils.getCourse(req.params.id)
+    const user = req.session.user
+    res.render("course_details", {
+        course,
+        name: `${course.title} - Course Details`,
+        user,
+        session: req.session,
+    })
+})
+
+/**
+ * Route for deleting a course - only admin
+ */
+app.get("/courses/:id/delete", async (req, res) => {
+    const course = await utils.getCourse(req.params.id)
+    const user = req.session.user
+    if (user?.admin) {
+        await utils.deleteCourse(course.id)
+    }
+    res.redirect("/courses")
+})
+
+/**
+ * Route for editing a course - only admin
+ */
+app.post("/api/course/:id/edit", async (req, res) => {
+    const course = await utils.getCourse(req.params.id)
+    const user = req.session.user
+    if (user?.admin) {
+        if (course.id) {
+            await utils.updateCourse(course.id, req.body)
+            return res.status(200).redirect(req.get("referer"))
+        } else {
+            return res.status(418).send("Course not found")
+        }
+    } else {
+        res.redirect("/courses")
+    }
+})
+
+/**
+ * API route to get course from the database
+ */
+app.post("/api/course/:id", async (req, res) => {
+    const course = await utils.getCourse(req.params.id)
+    if (course.id) {
+        return res.status(200).send(JSON.stringify(course))
+    } else {
+        return res.status(418).send("Course not found")
+    }
 })
 
 app.listen(3000, () => {

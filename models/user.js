@@ -1,3 +1,6 @@
+/**
+ * User data model
+ */
 module.exports = class User {
     id
     firstname

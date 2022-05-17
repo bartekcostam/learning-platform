@@ -1,3 +1,6 @@
+/**
+ * Course data model
+ */
 module.exports = class Course {
     id
     title

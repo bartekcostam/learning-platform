@@ -1,3 +1,5 @@
+// This script makes so when you open course edit modal it automatically fills the inputs with current data
+
 const courseEditModal = document.getElementById("editModal")
 courseEditModal.addEventListener("show.bs.modal", async (event) => {
     const courseId = window.location.href.split("/")[4]
