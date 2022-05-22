@@ -8,8 +8,8 @@
         "dev": "nodemon ."
     },
     "engines": {
-		"node": ">=16.9.0"
-	},
+        "node": ">=16.9.0"
+    },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/bartekcostam/learning-platform.git"
@@ -30,7 +30,8 @@
         "express": "^4.17.3",
         "express-session": "^1.17.2",
         "mysql2": "^2.3.3",
-        "nodemon": "^2.0.15"
+        "nodemon": "^2.0.15",
+        "scrollreveal": "^4.0.9"
     },
     "devDependencies": {
         "@faker-js/faker": "^6.3.1"
