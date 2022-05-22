@@ -1,13 +1,46 @@
-<nav class="navbar navbar-light bg-light static-top">
-    <div class="container">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
         <a class="navbar-brand" href="/">E-learning platform</a>
-        <% if(!locals.session.user) { %>
-        <a class="btn btn-outline-primary btn-lg" href="/register">Sign Up</a>
-        <a class="btn btn-outline-success btn-lg" href="/login">Sign In</a>
-        <% } else { %>
-        <a class="btn btn-outline-primary btn-lg" href="/panel">User Panel</a>
-        <a class="btn btn-outline-primary btn-lg" href="/courses">Courses</a>
-        <a class="btn btn-outline-primary btn-lg" href="/api/logout">Logout</a>
-        <% } %>
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/browse">All Courses<span class="material-symbols-outlined"> dataset </span></a>
+                </li>
+                <% if(!locals.session.user) { %>
+                <li class="nav-item">
+                    <a class="nav-link" href="/register">Sign Up<span class="material-symbols-outlined"> login </span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">Sign In<span class="material-symbols-outlined"> login </span></a>
+                </li>
+                <% } else { %>
+                <li class="nav-item">
+                    <a class="nav-link" href="/panel">User Panel<span class="material-symbols-outlined"> account_circle </span></a>
+                </li>
+                <% if(locals.session.user.admin) { %>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin">Admin Panel<span class="material-symbols-outlined"> admin_panel_settings </span></a>
+                </li>
+                <% } %>
+                <li class="nav-item">
+                    <a class="nav-link" href="/courses">Your Courses<span class="material-symbols-outlined"> golf_course </span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/api/logout">Logout<span class="material-symbols-outlined"> logout </span></a>
+                </li>
+                <% } %>
+            </ul>
+        </div>
     </div>
 </nav>
