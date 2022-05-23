@@ -76,10 +76,14 @@ app.get("/admin_panel", (req, res) => {
     if (!req.session.user) {
         res.redirect("/login")
     } else {
-        res.render("admin_panel", {
-            name: "Admin Panel",
-            session: req.session,
-        })
+        if (req.session.user.admin) {
+            res.render("admin_panel", {
+                name: "Admin Panel",
+                session: req.session,
+            })
+        } else {
+            res.redirect("/panel")
+        }
     }
 })
 
