@@ -72,6 +72,21 @@ app.get("/register", (req, res) => {
     }
 })
 
+app.get("/admin_panel", (req, res) => {
+    if (!req.session.user) {
+        res.redirect("/login")
+    } else {
+        if (req.session.user.admin) {
+            res.render("admin_panel", {
+                name: "Admin Panel",
+                session: req.session,
+            })
+        } else {
+            res.redirect("/panel")
+        }
+    }
+})
+
 /**
  * Recieves data from login form to redirect to panel page
  */
