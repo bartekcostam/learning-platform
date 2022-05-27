@@ -6,12 +6,19 @@ const CookieStore = require("connect-mysql")(session)
 const path = require("path")
 const db = require("./database")
 const Util = require("./util")
+const nodemailer = require("nodemailer")
 
 const app = express()
 const utils = new Util(db)
 const CookieStoreOptions = {
     config: Util.dbConfig,
 }
+const Vonage = require('@vonage/server-sdk')
+
+const vonage = new Vonage({
+  apiKey: process.env.SMSapiKey,
+  apiSecret: process.env.SMSapiSecret
+})
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -44,6 +51,58 @@ app.get("/", async (req, res) => {
     })
 })
 
+// Test SMS api
+app.post("/sms", async (req, res) => {
+const from = "System APIs"
+const to = process.env.phone_no
+const text = 'Dziekujemy za zakup kursu'
+
+vonage.message.sendSms(from, to, text, (err, responseData) => {
+    if (err) {
+        console.log(err);
+    } else {
+        if(responseData.messages[0]['status'] === "0") {
+            console.log("Message sent successfully.");
+        } else {
+            console.log(`Message failed with error: ${responseData.messages[0]['error-text']}`);
+        }
+    }
+})
+})
+
+// Sending Email by gmail SMTP server to
+app.post("/email", async (req, res) => {
+    //Transporter leyer 
+    let transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true, // true for 465, false for other ports
+        auth: {
+          user: process.env.userNameGmail, // generated ethereal user
+          pass: process.env.passwordGmail // generated ethereal password
+        },
+      });
+      console.log(req.body)
+
+      const mailOptions ={
+          from: req.body.email,
+          to: req.body.docelowyEmail,
+          subject: "Mail z formy kontaktowej"+ " Numer telefonu:  " + req.body.phone_nr,
+          text: req.body.message
+      }
+      
+      transporter.sendMail(mailOptions, (error, info) => {
+          if (error){
+              console.log(error)
+          }
+          else{
+              console.log("Mail wyslany")
+              res.send("Wyslono")
+          }
+      })
+      
+
+})
 /**
  * Route for login page
  */
