@@ -13,11 +13,11 @@ const utils = new Util(db)
 const CookieStoreOptions = {
     config: Util.dbConfig,
 }
-const Vonage = require('@vonage/server-sdk')
+const Vonage = require("@vonage/server-sdk")
 
 const vonage = new Vonage({
-  apiKey: process.env.SMSapiKey,
-  apiSecret: process.env.SMSapiSecret
+    apiKey: process.env.SMSapiKey,
+    apiSecret: process.env.SMSapiSecret,
 })
 
 app.use(express.json())
@@ -53,55 +53,52 @@ app.get("/", async (req, res) => {
 
 // Test SMS api
 app.post("/sms", async (req, res) => {
-const from = "System APIs"
-const to = process.env.phone_no
-const text = 'Dziekujemy za zakup kursu'
+    const from = "System APIs"
+    const to = process.env.phone_no
+    const text = "Dziekujemy za zakup kursu"
 
-vonage.message.sendSms(from, to, text, (err, responseData) => {
-    if (err) {
-        console.log(err);
-    } else {
-        if(responseData.messages[0]['status'] === "0") {
-            console.log("Message sent successfully.");
+    vonage.message.sendSms(from, to, text, (err, responseData) => {
+        if (err) {
+            console.log(err)
         } else {
-            console.log(`Message failed with error: ${responseData.messages[0]['error-text']}`);
+            if (responseData.messages[0]["status"] === "0") {
+                console.log("Message sent successfully.")
+            } else {
+                console.log(`Message failed with error: ${responseData.messages[0]["error-text"]}`)
+            }
         }
-    }
-})
+    })
 })
 
 // Sending Email by gmail SMTP server to
 app.post("/email", async (req, res) => {
-    //Transporter leyer 
+    //Transporter leyer
     let transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
         port: 465,
         secure: true, // true for 465, false for other ports
         auth: {
-          user: process.env.userNameGmail, // generated ethereal user
-          pass: process.env.passwordGmail // generated ethereal password
+            user: process.env.userNameGmail, // generated ethereal user
+            pass: process.env.passwordGmail, // generated ethereal password
         },
-      });
-      console.log(req.body)
+    })
+    console.log(req.body)
 
-      const mailOptions ={
-          from: req.body.email,
-          to: req.body.docelowyEmail,
-          subject: "Mail z formy kontaktowej"+ " Numer telefonu:  " + req.body.phone_nr,
-          text: req.body.message
-      }
-      
-      transporter.sendMail(mailOptions, (error, info) => {
-          if (error){
-              console.log(error)
-          }
-          else{
-              console.log("Mail wyslany")
-              res.send("Wyslono")
-          }
-      })
-      
+    const mailOptions = {
+        from: req.body.email,
+        to: req.body.docelowyEmail,
+        subject: "Mail z formy kontaktowej" + " Numer telefonu:  " + req.body.phone_nr,
+        text: req.body.message,
+    }
 
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.log(error)
+        } else {
+            console.log("Mail wyslany")
+            res.send("Wyslono")
+        }
+    })
 })
 /**
  * Route for login page
@@ -173,29 +170,25 @@ app.post("/api/register", async (req, res) => {
             error: "Invalid email",
         })
     }
-    const emailExists = (await db.promise().query(`SELECT * FROM users WHERE email = ?`, [email]))[0].length > 0
-    if (emailExists) {
+    if (utils.userExists(email)) {
         return res.status(400).json({
             error: "Email already exists",
         })
     }
-    const username = ""
-    const courses = ""
-    admin = 0
-    db.promise()
-        .query(`INSERT INTO users (firstname, lastname, age, email, password, nick, courses, admin) VALUES(?, ?, ?, ?, ?, ?, ?, ?)`, [
+    await utils
+        .createUser({
             firstname,
             lastname,
             age,
             email,
             password,
-            username,
-            courses,
-            admin,
-        ])
+            username: "",
+            courses: "",
+            admin: 0,
+        })
         .catch(console.error)
     req.session.user = await utils.getUserByEmail(email)
-    res.send(201).redirect("/panel")
+    res.send(200).redirect("/panel")
 })
 
 /**

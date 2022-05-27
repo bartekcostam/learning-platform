@@ -19,6 +19,35 @@ module.exports = class Util {
     }
 
     /**
+     *
+     * @param {Object} data
+     * @returns
+     */
+    async createUser(data) {
+        await db
+            .promise()
+            .query(`INSERT INTO users (firstname, lastname, age, email, password, nick, courses, admin) VALUES(?, ?, ?, ?, ?, ?, ?, ?)`, [
+                data.firstname,
+                data.lastname,
+                data.age,
+                data.email,
+                data.password,
+                data.username,
+                data.courses,
+                data.admin,
+            ])
+    }
+
+    /**
+     *
+     * @param {string} email
+     * @returns {Promise<boolean>}
+     */
+    async userExists(email) {
+        return (await db.promise().query(`SELECT * FROM users WHERE email = ?`, [email]))[0].length > 0
+    }
+
+    /**
      * Returns a user with the given id from the database
      * @param {number} id
      * @returns {User}
