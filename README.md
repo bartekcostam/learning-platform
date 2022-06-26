@@ -16,11 +16,11 @@
 ![model learning platform ](https://user-images.githubusercontent.com/20500755/167302210-9a1fdf80-cb67-4016-af29-9aa5e2eee7e5.png)
 
 
-#Documentation:
+# Documentation:
 
-###Start project by:
+### Start project by:
 
-git clone <url of the project>
+<p>git clone <url of the project> </p>
 cd <project folder>
 npm install 
 create .env file 
