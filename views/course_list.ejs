@@ -5,11 +5,14 @@
         <% const owner = (locals.session.user?.courses.includes(courses[i].id)) %>
         <a class="list-group-item list-group-item-action <%- owner ? "list-group-item-success" : ""%>" aria-current="true">
             <div class="d-flex w-100 justify-content-between">
-                <h4 class="mb-1"><%- courses[i].title %></h4>
+                <h2 class="mb-1"><%- courses[i].title %></h2>
                 <button onclick="window.location.href='/courses/<%- courses[i].id %>'" type="button" class="btn btn-primary"><%- (owner) ? "view" : courses[i].price + "zł" %><span class="material-symbols-outlined"> <%- (owner) ? "wysiwyg" : "shopping_cart" %></span></button>
             </div>
             <p><%- (courses[i].description.length > 150) ? courses[i].description.substr(0, 149) + '&hellip;' : courses[i].description %></p>
-            <small>Author: <strong><%- courses[i].author %></strong></small>
+            
+            <img style="opacity:0.7;" src="https://source.unsplash.com/random/400x400" alt="">
+
+            <div style="bottom:10px;"><small>Author: <strong><%- courses[i].author %></strong></small></div>
         </a>
         <% } %>
     </div>
