@@ -21,12 +21,12 @@
 ### Start project by:
 
 <p>git clone <url of the project> </p>
-cd <project folder>
-npm install 
-create .env file 
-npm start
+<p> cd <project folder>  </p>
+<p> npm install  </p>
+<p> create .env file  </p>
+<p> npm start  </p>
   
-Have look and feel free to edit ;)
+<h5>Have look and feel free to edit ;)  </h5>
   
 
 Link:
