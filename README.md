@@ -21,7 +21,7 @@
 ### Start project by:
 
 <p>git clone <url of the project> </p>
-<p> cd <project folder>  </p>
+<p> cd 'project folder'  </p>
 <p> npm install  </p>
 <p> create .env file  </p>
 <p> npm start  </p>
