@@ -28,6 +28,20 @@
 <p> cd 'project folder'  </p>
 <p> npm install  </p>
 <p> create .env file  </p>
+<p>To create .env file which contains credentials for DB etc you can use existing bash script to create it:  </p>
+
+
+<h6>Pass four arguments to env-creator.sh to generate .env file ;)</h6>
+<ul>
+<li>1.IP address of DB</li>
+<li>2.DB_username </li>
+<li>3.DB_password</li>
+<li>4.DB_name</li>
+</ul>
+  
+
+![bash](https://user-images.githubusercontent.com/20500755/175818398-e012fa5b-15f3-4c50-8195-106f26b277e3.png)
+
 <p> npm start  </p>
   
 <h5>Have look and feel free to edit ;)  </h5>
