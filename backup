@@ -1,0 +1,6 @@
+#!/bin/bash
+
+
+echo "Tworze backup..."
+
+zip -r backup.zip .

@@ -14,6 +14,7 @@ const CookieStoreOptions = {
     config: Util.dbConfig,
 }
 const Vonage = require("@vonage/server-sdk")
+const shell = require("shelljs")
 
 const vonage = new Vonage({
     apiKey: process.env.SMSapiKey,
@@ -298,6 +299,14 @@ app.post("/api/course/:id", async (req, res) => {
     } else {
         return res.status(418).send("Course not found")
     }
+})
+
+app.get("/backup", async (req, res) => {
+    console.log("preparing to backup")
+    shell.exec('./backup')
+    await new Promise(r => setTimeout(r, 5000));
+    res.download('backup.zip')
+
 })
 
 app.listen(3000, () => {
