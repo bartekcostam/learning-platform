@@ -18,4 +18,15 @@
 
 #Documentation:
 
+###Start project by:
+
+git clone <url of the project>
+cd <project folder>
+npm install 
+create .env file 
+npm start
+  
+Have look and feel free to edit ;)
+  
+
 Link:
