@@ -10,10 +10,14 @@
 
 ![main page learning platform](https://user-images.githubusercontent.com/20500755/167302126-3c3ded0b-3acb-4689-9d99-9484f9b9972d.png)
 
-## General model
+## General model of application
 
 
 ![model learning platform ](https://user-images.githubusercontent.com/20500755/167302210-9a1fdf80-cb67-4016-af29-9aa5e2eee7e5.png)
+
+## Database ERD model 
+
+![sql diagram](https://user-images.githubusercontent.com/20500755/175814620-28e6ef77-94fe-40c2-b7a3-d0cb3838bf39.png)
 
 
 # Documentation:
