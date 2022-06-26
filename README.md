@@ -8,7 +8,7 @@
 
 # Main page 
 
-![main page learning platform](https://user-images.githubusercontent.com/20500755/167302126-3c3ded0b-3acb-4689-9d99-9484f9b9972d.png)
+![learning_platform](https://user-images.githubusercontent.com/20500755/175818124-eaa35c0e-e987-49ef-bbc4-e2a03c4401b3.png)
 
 ## General model of application
 
