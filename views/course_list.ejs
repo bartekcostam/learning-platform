@@ -10,7 +10,7 @@
             </div>
             <p><%- (courses[i].description.length > 150) ? courses[i].description.substr(0, 149) + '&hellip;' : courses[i].description %></p>
             
-            <img style="opacity:0.7;" src="https://source.unsplash.com/random/400x400" alt="">
+            <img style="opacity:0.7;" src="https://picsum.photos/500/300?random=<%- [i + 1] %>" alt="">
 
             <div style="bottom:10px;"><small>Author: <strong><%- courses[i].author %></strong></small></div>
         </a>
