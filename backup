@@ -4,3 +4,5 @@
 echo "Tworze backup..."
 
 zip -r backup.zip .
+
+echo "Backup zostal utworzony"
