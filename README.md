@@ -15,6 +15,9 @@
 
 ![model learning platform ](https://user-images.githubusercontent.com/20500755/167302210-9a1fdf80-cb67-4016-af29-9aa5e2eee7e5.png)
 
+![image](https://github.com/bartekcostam/learning-platform/assets/20500755/5f51f360-8bdc-4553-a6bc-f29bd46589a6)
+
+
 ## Database ERD model 
 
 ![sql diagram](https://user-images.githubusercontent.com/20500755/175814620-28e6ef77-94fe-40c2-b7a3-d0cb3838bf39.png)
