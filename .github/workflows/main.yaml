@@ -13,7 +13,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Run bash script
-      run: bash ./docker_db_varables.sh
+      run: bash ./docker_db_variables.sh
 
     - name: Login to AWS ECR
       id: login-ecr
