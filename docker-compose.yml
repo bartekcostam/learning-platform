@@ -1,11 +1,14 @@
-version: '3.8'
+version: '1'
 
 services:
+
   mysql-development:
     image: mysql:8.0.17
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: learning_platform
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASS}
     ports:
       - "3308:3306"
   
@@ -13,15 +16,3 @@ services:
     image: adminer    
     ports:      
       - "8080:8080"
-
-  app:
-    build: .
-    environment:
-      DB_HOST: mysql-development
-      DB_USER: root
-      DB_PASS: password
-      DB_NAME: learning_platform
-    ports:
-      - "3000:3000"
-    depends_on:
-      - mysql-development

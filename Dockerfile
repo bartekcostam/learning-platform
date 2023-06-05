@@ -1,12 +1,17 @@
-FROM node:12.22.9 AS build
+FROM node:18.16.0
+ENV NODE_ENV=production
+
 WORKDIR /app
+
 COPY ["package.json", "package-lock.json*", "./"]
+
 RUN npm install
+
 COPY . .
 
-FROM node:12.22.9
-WORKDIR /app
-COPY --from=build /app .
-ENV NODE_ENV=production
+# Copy .env file into Docker container
+COPY .env ./
+
 EXPOSE 3000
+
 CMD [ "npm", "start"]
