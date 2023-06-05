@@ -8,6 +8,8 @@ jobs:
   build-and-push:
     name: Build and Push node app
     runs-on: ubuntu-latest
+    env:
+      AWS_DEFAULT_REGION: eu-north-1
     steps:
     - name: Checkout
       uses: actions/checkout@v2
